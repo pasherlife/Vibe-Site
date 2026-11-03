@@ -1,0 +1,26 @@
+# Frontend Dockerfile
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY frontend/package.json .
+COPY frontend/package-lock.json .
+
+# Install dependencies
+RUN npm install
+
+# Copy frontend code
+COPY frontend /app
+
+# Build the application
+RUN npm run build
+
+# Set environment variables
+ENV VITE_API_URL=http://localhost:8000/api/v1
+
+# Run the development server
+CMD ["npm", "run", "dev"]
+
+# For production, use:
+# CMD ["npm", "run", "preview"]
